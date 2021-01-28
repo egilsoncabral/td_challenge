@@ -1,7 +1,4 @@
 logging:
-  level.org.hibernate:
-    SQL: DEBUG
-    type.descriptor.sql.BasicBinder: TRACE
   level.org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
 
 management.endpoints.web.exposure.include: "*"

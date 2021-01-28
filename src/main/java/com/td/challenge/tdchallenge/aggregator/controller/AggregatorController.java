@@ -4,6 +4,8 @@ import com.td.challenge.tdchallenge.aggregator.dto.AggregatorResponseDTO;
 import com.td.challenge.tdchallenge.aggregator.service.AggregatorService;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.OK;
@@ -21,7 +23,7 @@ public class AggregatorController {
 
     @ResponseStatus(OK)
     @PostMapping(produces = APPLICATION_JSON_VALUE)
-    public AggregatorResponseDTO aggregatePhoneNumbers(@RequestBody(required = true) List<String> phoneNumbers) {
+    public AggregatorResponseDTO aggregatePhoneNumbers(@RequestBody(required = true) List<String> phoneNumbers) throws IOException, URISyntaxException {
         return aggregatorService.aggregatePhoneNumbers(phoneNumbers);
     }
 }
