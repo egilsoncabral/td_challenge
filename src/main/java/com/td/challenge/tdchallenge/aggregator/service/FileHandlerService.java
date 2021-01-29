@@ -30,7 +30,7 @@ public class FileHandlerService {
     private Set<String> readFile(String filePath) throws IOException, URISyntaxException {
         Path path = Paths.get(getClass().getClassLoader()
                 .getResource(filePath).toURI());
-        return Files.lines(path).sorted().collect(Collectors.toSet());
+        return Files.lines(path).collect(Collectors.toSet());
     }
 
     public Set<String> getFiles() {

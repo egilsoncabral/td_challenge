@@ -1,6 +1,6 @@
 package com.td.challenge.tdchallenge.aggregator.controller;
 
-import com.td.challenge.tdchallenge.aggregator.InvalidPhoneNumberException;
+import com.td.challenge.tdchallenge.aggregator.PhoneNumberNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -13,8 +13,8 @@ public class AggregatorControllerAdvice {
 
     @ResponseBody
     @ResponseStatus(BAD_REQUEST)
-    @ExceptionHandler(InvalidPhoneNumberException.class)
-    public String invalidPhoneNumberExceptionHandler(InvalidPhoneNumberException e) {
+    @ExceptionHandler(PhoneNumberNotFoundException.class)
+    public String phoneNumberNotFoundExceptionHandler(PhoneNumberNotFoundException e) {
         return e.getMessage();
     }
 }

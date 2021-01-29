@@ -19,21 +19,15 @@ import java.util.stream.Collectors;
 public class TelephoneNumberValidator {
 
 
-	public List<String> validate( List<String> phoneNumbers ) {
+	public List<String> validate(List<String> phoneNumbers) {
 		log.info("Validating phone numbers" );
-		return checkPhoneHasNoLettersAndReplaceUselessCharacters(phoneNumbers);
+		return formatNumber(phoneNumbers);
 	}
 
-	//This function is used to:
-	// check null
-	// removes invalid phone numbers (phone numbers with letters)
-	// remove "+",
-	// remove spaces
-	// remove "00" in the beginning of the phone number
-	private List<String> checkPhoneHasNoLettersAndReplaceUselessCharacters(List<String> phoneNumbers) {
+	private List<String> formatNumber(List<String> phoneNumbers) {
 		return phoneNumbers.stream()
 				.filter(Objects::nonNull)
-				.filter(s -> !Pattern.matches(".*[a-zA-Z].*", s)  )
+				.filter(s -> !s.isEmpty() && !Pattern.matches(".*[a-zA-Z].*", s))
 				.map( s -> s.replaceAll("\\+", "")
 						.replaceAll(" ", "")
 						.replaceFirst("^0+(?!$)", "" ))

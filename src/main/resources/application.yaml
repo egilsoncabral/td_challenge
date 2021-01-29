@@ -6,6 +6,9 @@ management.endpoints.web.exposure.include: "*"
 server:
   port: 8080
 
+spring:
+  profiles.active: local
+
 springdoc.api-docs.path: /api-docs
 
 challenge.rest.endpoint: https://challenge-business-sector-api.meza.talkdeskstg.com

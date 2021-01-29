@@ -2,7 +2,6 @@ package com.td.challenge.tdchallenge.sector.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.td.challenge.tdchallenge.aggregator.InvalidPhoneNumberException;
 import com.td.challenge.tdchallenge.sector.dto.SectorResponseDTO;
 import com.td.challenge.tdchallenge.util.RestApiClient;
 import lombok.extern.slf4j.Slf4j;
@@ -31,13 +30,13 @@ public class PhoneSectorService {
     }
 
     public SectorResponseDTO getPhoneNumberSector(String phoneNumber) throws JsonProcessingException {
-        log.info("\n>getPhoneNumberSector");
+        log.info("Getting sector of number: {}", phoneNumber);
         ResponseEntity<SectorResponseDTO> response = restConsumer.consumeAPI( challengeEndpoint + sectorEndpoint + phoneNumber );
         return validateResponse(phoneNumber, response );
     }
 
     private SectorResponseDTO validateResponse(String phoneNumber, ResponseEntity<SectorResponseDTO> response) throws JsonProcessingException {
-        if (response == null && !response.getStatusCode().equals(HttpStatus.OK) ) {
+        if (response == null && !response.getStatusCode().equals(HttpStatus.OK)) {
             return null;
         }
         return mapper.readValue(String.valueOf(response.getBody()), SectorResponseDTO.class);
