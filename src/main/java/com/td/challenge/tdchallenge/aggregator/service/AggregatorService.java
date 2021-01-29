@@ -2,21 +2,17 @@ package com.td.challenge.tdchallenge.aggregator.service;
 
 import com.td.challenge.tdchallenge.sector.dto.SectorResponseDTO;
 import com.td.challenge.tdchallenge.sector.service.PhoneSectorService;
-import com.td.challenge.tdchallenge.util.FileHandlerSingleton;
 import com.td.challenge.tdchallenge.validator.TelephoneNumberValidator;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.jar.JarEntry;
 
 @Service
 public class AggregatorService {
 
-    private FileHandlerSingleton fileHandler;
+    private FileHandlerService fileHandlerService;
 
     private TelephoneNumberValidator telephoneNumberValidator;
 
@@ -24,28 +20,39 @@ public class AggregatorService {
 
     private PhoneNumberPrefixService phoneNumberPrefixService;
 
-    @Value("${file.prefix.name}")
-    private String filePath;
-
-    public AggregatorService (FileHandlerSingleton fileHandler, TelephoneNumberValidator telephoneNumberValidator,
+    public AggregatorService (FileHandlerService fileHandlerService, TelephoneNumberValidator telephoneNumberValidator,
                               PhoneSectorService phoneSectorService, PhoneNumberPrefixService phoneNumberPrefixService) {
-        this.fileHandler = fileHandler;
+        this.fileHandlerService = fileHandlerService;
         this.telephoneNumberValidator = telephoneNumberValidator;
         this.phoneSectorService = phoneSectorService;
         this.phoneNumberPrefixService = phoneNumberPrefixService;
     }
 
-    public Map<String, Map<String, Integer>> aggregatePhoneNumbers(List<String> phoneNumbers) throws IOException, URISyntaxException {
-        List<String> prefixes = fileHandler.readFile(filePath);
+    public Map<String, Map<String, Integer>> aggregatePhoneNumbers(List<String> phoneNumbers) throws IOException {
+
         Map<String, Map<String, Integer>> response = new HashMap<>();
         List<String> validatedNumbers = telephoneNumberValidator.validate(phoneNumbers);
+
+        Set<String> prefixes = fileHandlerService.getFiles();
+
         for (String phoneNumber: validatedNumbers) {
             SectorResponseDTO sectorResponseDTO = phoneSectorService.getPhoneNumberSector(phoneNumber);
-            if(null != sectorResponseDTO) {
+            if (sectorResponseDTO != null) {
                 String prefix = phoneNumberPrefixService.getPrefix(phoneNumber, prefixes);
+                if (prefix != null) {
+                    Map<String, Integer> mapResult = response.get(prefix);
+                    if (mapResult != null) {
+                        Integer count = mapResult.get(sectorResponseDTO.getSector());
+                        if (count == null) count = 0;
+                        mapResult.put(sectorResponseDTO.getSector(), count + 1);
+                    } else {
+                        mapResult = new HashMap<>();
+                        mapResult.put(sectorResponseDTO.getSector(), 1);
+                        response.put(prefix, mapResult);
+                    }
+                }
             }
         }
         return response;
     }
-
 }
