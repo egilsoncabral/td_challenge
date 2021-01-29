@@ -15,10 +15,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class PhoneSectorService {
 
-    @Value("challenge.rest.endpoint")
+    @Value("${challenge.rest.endpoint}")
     private String challengeEndpoint;
 
-    @Value("challenge.rest.sector")
+    @Value("${challenge.rest.sector}")
     private String sectorEndpoint;
 
     private ObjectMapper mapper;
@@ -40,6 +40,6 @@ public class PhoneSectorService {
         if (response == null && !response.getStatusCode().equals(HttpStatus.OK) ) {
             return null;
         }
-        return response.getBody();
+        return mapper.readValue(String.valueOf(response.getBody()), SectorResponseDTO.class);
     }
 }

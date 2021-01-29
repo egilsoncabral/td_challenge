@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Map;
 
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -23,7 +24,7 @@ public class AggregatorController {
 
     @ResponseStatus(OK)
     @PostMapping(produces = APPLICATION_JSON_VALUE)
-    public AggregatorResponseDTO aggregatePhoneNumbers(@RequestBody(required = true) List<String> phoneNumbers) throws IOException, URISyntaxException {
+    public Map<String, Map<String, Integer>> aggregatePhoneNumbers(@RequestBody(required = true) List<String> phoneNumbers) throws IOException, URISyntaxException {
         return aggregatorService.aggregatePhoneNumbers(phoneNumbers);
     }
 }
