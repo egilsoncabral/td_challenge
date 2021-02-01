@@ -50,7 +50,7 @@ public class AggregatorService {
                 buildResponse(prefixes, response, phoneNumber, sectorResponseDTO);
             }
         }
-
+        if (response.isEmpty()) throw new PhoneNumberNotFoundException();
         return response;
     }
 

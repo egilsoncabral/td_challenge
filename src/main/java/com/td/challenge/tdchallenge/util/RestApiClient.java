@@ -18,7 +18,13 @@ public class RestApiClient {
 
     public <T> ResponseEntity<T> consumeAPI(String url) {
         log.info("Consuming API in endpoint: " + url);
-        return (ResponseEntity<T>) restTemplate.getForEntity(url, String.class);
+        ResponseEntity<T> responseEntity = null;
+        try{
+            responseEntity = (ResponseEntity<T>) restTemplate.getForEntity(url, String.class);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return responseEntity;
     }
 
 }

@@ -9,14 +9,21 @@ import java.util.Set;
 public class PhoneNumberPrefixService {
 
     public String getPrefix(String phoneNumber, Set<String> prefixes) {
+        phoneNumber = validatePhoneNumber(phoneNumber);
         StringBuilder number = new StringBuilder(phoneNumber);
         int numberSize = number.length();
-        for (int i = 1; i < numberSize; i++) {
-            if(prefixes.contains(number.toString())) {
-                break;
+        if (prefixes != null) {
+            for (int i = 0; i < numberSize; i++) {
+                if(prefixes.contains(number.toString())) {
+                    break;
+                }
+                number.deleteCharAt(number.length() - 1);
             }
-            number.deleteCharAt(number.length() - 1);
         }
         return number.toString();
+    }
+
+    private String validatePhoneNumber(String phoneNumber) {
+        return phoneNumber != null ? phoneNumber.replaceAll("\\+", "") : new String ();
     }
 }

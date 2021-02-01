@@ -32,11 +32,11 @@ public class PhoneSectorService {
     public SectorResponseDTO getPhoneNumberSector(String phoneNumber) throws JsonProcessingException {
         log.info("Getting sector of number: {}", phoneNumber);
         ResponseEntity<SectorResponseDTO> response = restConsumer.consumeAPI( challengeEndpoint + sectorEndpoint + phoneNumber );
-        return validateResponse(phoneNumber, response );
+        return validateResponse(response);
     }
 
-    private SectorResponseDTO validateResponse(String phoneNumber, ResponseEntity<SectorResponseDTO> response) throws JsonProcessingException {
-        if (response == null && !response.getStatusCode().equals(HttpStatus.OK)) {
+    private SectorResponseDTO validateResponse(ResponseEntity<SectorResponseDTO> response) throws JsonProcessingException {
+        if (null == response || !response.getStatusCode().equals(HttpStatus.OK)) {
             return null;
         }
         return mapper.readValue(String.valueOf(response.getBody()), SectorResponseDTO.class);
