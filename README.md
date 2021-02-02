@@ -1,4 +1,4 @@
-# TB_Challenge
+# Phone Aggregator
 This is a personal challenge project, whose purpose is to build a phone information aggregator API. This
 system takes a list of phone numbers obtained from user input and returns the
 count of valid phones broken down per prefix and per business sector.
@@ -32,11 +32,8 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-* JDK 11
-* [Maven](https://maven.apache.org/)
 * [Docker](https://www.docker.com/)
-* prefixes.txt (The file contains all eligible prefixes, separated by new lines)
-* API up (https://challenge-business-sector-api.meza.talkdeskstg.com)
+* API online (https://challenge-business-sector-api.meza.talkdeskstg.com)
 
 ## Build/Usage
 
